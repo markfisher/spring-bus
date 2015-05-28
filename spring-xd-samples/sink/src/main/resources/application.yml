@@ -1,2 +1,14 @@
 server:
   port: 8081
+
+---
+spring:
+  rabbitmq:
+    addresses: localhost:5672
+    adminAddresses: localhost:15672
+    nodes: rabbit@localhost
+    username: guest
+    password: guest
+    virtual_host: /
+    useSSL: false
+    sslProperties:
