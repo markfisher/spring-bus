@@ -23,6 +23,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.springframework.bus.runner.config.KafkaServiceConfiguration;
 import org.springframework.bus.runner.config.LifecycleConfiguration;
 import org.springframework.bus.runner.config.MessageBusAdapterConfiguration;
 import org.springframework.bus.runner.config.RabbitServiceConfiguration;
@@ -39,7 +40,7 @@ import org.springframework.context.annotation.Import;
 @Documented
 @Inherited
 @Configuration
-@Import({ RedisServiceConfiguration.class, RabbitServiceConfiguration.class,
+@Import({ RedisServiceConfiguration.class, RabbitServiceConfiguration.class, KafkaServiceConfiguration.class,
 		MessageBusAdapterConfiguration.class, LifecycleConfiguration.class })
 public @interface EnableMessageBus {
 
