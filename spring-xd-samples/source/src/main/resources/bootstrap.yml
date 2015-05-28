@@ -2,4 +2,4 @@
 spring:
   bus:
     group: testtock
-    name: ticker
+    name: time

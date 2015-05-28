@@ -173,13 +173,16 @@ public class MessageBusAdapter implements Lifecycle, ApplicationContextAware {
 			OutputChannelSpec spec = outputChannels.get(name);
 			MessageChannel outputChannel = spec.getMessageChannel();
 			bindMessageProducer(outputChannel, name, module.getProducerProperties());
-			if (spec.isTapped()) {
+			//if (spec.isTapped()) {
 				String tapChannelName = spec.getTapChannelName();
+				if (tapChannelName == "") {
+					tapChannelName = "tap:stream:" + module.getGroup() + "." + module.getName() + "." + module.getIndex();
+				}
 				// tappableChannels.put(tapChannelName, outputChannel);
 				// if (isTapActive(tapChannelName)) {
 				createAndBindTapChannel(tapChannelName, outputChannel);
 				// }
-			}
+			//}
 			if (trackHistory) {
 				track(outputChannel, historyProperties);
 			}
