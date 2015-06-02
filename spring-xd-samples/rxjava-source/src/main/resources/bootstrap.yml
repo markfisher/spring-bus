@@ -1,0 +1,5 @@
+---
+spring:
+  bus:
+    group: sensor
+    name: generator

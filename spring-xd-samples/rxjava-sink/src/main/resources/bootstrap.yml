@@ -1,0 +1,6 @@
+---
+spring:
+  bus:
+    group: sensor
+    name: processor
+    index: 1

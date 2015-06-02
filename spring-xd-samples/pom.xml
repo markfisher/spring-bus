@@ -20,5 +20,7 @@
 		<module>sink</module>
 		<module>tap</module>
 		<module>source-xml</module>
+		<module>rxjava-source</module>
+		<module>rxjava-sink</module>
 	</modules>
 </project>
