@@ -3,3 +3,6 @@ spring:
   bus:
     group: testtock
     name: ticker
+    producerProperties:
+      partitionKeyExpression: payload
+      partitionCount: 2

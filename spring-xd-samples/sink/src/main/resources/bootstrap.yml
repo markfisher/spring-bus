@@ -4,3 +4,6 @@ spring:
     group: testtock
     name: logger
     index: 1
+    consumerProperties:
+      partitionIndex: 1
+

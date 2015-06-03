@@ -30,9 +30,12 @@ import org.springframework.bus.runner.adapter.OutputChannelSpec;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.integration.config.IntegrationEvaluationContextFactoryBean;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.xd.dirt.integration.bus.MessageBus;
 import org.springframework.xd.dirt.integration.bus.MessageBusAwareRouterBeanPostProcessor;
+import org.springframework.xd.dirt.integration.bus.MessageBusSupport;
 
 import reactor.util.StringUtils;
 
@@ -52,9 +55,16 @@ public class MessageBusAdapterConfiguration {
 	private ListableBeanFactory beanFactory;
 
 	@Bean
+	public IntegrationEvaluationContextFactoryBean integrationEvaluationContext() {
+		return new IntegrationEvaluationContextFactoryBean();
+	}
+
+	@Bean
 	public MessageBusAdapter messageBusAdapter(MessageBusProperties module,
-			MessageBus messageBus) {
+			MessageBusSupport messageBus, EvaluationContext integrationEvaluationContext) {
 		MessageBusAdapter adapter = new MessageBusAdapter(module, messageBus);
+		// TODO: investigate lifecycle/order; next line should not be necessary, nor the integrationEvaluationContext bean
+		messageBus.setIntegrationEvaluationContext(integrationEvaluationContext);
 		adapter.setOutputChannels(getOutputChannels());
 		adapter.setInputChannels(getInputChannels());
 		return adapter;
