@@ -16,7 +16,7 @@
 
 package org.springframework.bus.runner.adapter;
 
-import org.springframework.bus.runner.config.MessageBusProperties;
+import org.springframework.bus.runner.config.ModuleProperties;
 import org.springframework.util.StringUtils;
 
 /**
@@ -25,9 +25,9 @@ import org.springframework.util.StringUtils;
  */
 public class DefaultChannelLocator implements ChannelLocator {
 
-	private MessageBusProperties module;
+	private ModuleProperties module;
 
-	public DefaultChannelLocator(MessageBusProperties module) {
+	public DefaultChannelLocator(ModuleProperties module) {
 		this.module = module;
 	}
 

@@ -18,7 +18,7 @@ package org.springframework.bus.runner.adapter;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.springframework.bus.runner.config.MessageBusProperties;
+import org.springframework.bus.runner.config.ModuleProperties;
 
 /**
  * @author Dave Syer
@@ -26,7 +26,7 @@ import org.springframework.bus.runner.config.MessageBusProperties;
  */
 public class DefaultChannelLocatorTests {
 
-	private MessageBusProperties module = new MessageBusProperties();
+	private ModuleProperties module = new ModuleProperties();
 
 	private DefaultChannelLocator locator = new DefaultChannelLocator(this.module);
 

@@ -19,40 +19,39 @@ package org.springframework.bus.runner.adapter;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.springframework.bus.runner.config.MessageBusProperties;
+import org.springframework.bus.runner.config.ModuleProperties;
 
 /**
  * @author Dave Syer
- *
  */
 public class ChannelsMetadata {
 
-	private Collection<OutputChannelSpec> outputChannels = Collections.emptySet();
-	private Collection<InputChannelSpec> inputChannels = Collections.emptySet();
-	private MessageBusProperties module;
+	private Collection<OutputBinding> outputBindings = Collections.emptySet();
+	private Collection<InputBinding> inputBindings = Collections.emptySet();
+	private ModuleProperties module;
 
-	public MessageBusProperties getModule() {
+	public ModuleProperties getModule() {
 		return module;
 	}
 
-	public void setModule(MessageBusProperties module) {
+	public void setModule(ModuleProperties module) {
 		this.module = module;
 	}
 
-	public Collection<OutputChannelSpec> getOutputChannels() {
-		return outputChannels;
+	public Collection<OutputBinding> getOutputBindings() {
+		return outputBindings;
 	}
 
-	public void setOutputChannels(Collection<OutputChannelSpec> outputChannels) {
-		this.outputChannels = outputChannels;
+	public void setOutputBindings(Collection<OutputBinding> outputBindings) {
+		this.outputBindings = outputBindings;
 	}
 
-	public Collection<InputChannelSpec> getInputChannels() {
-		return inputChannels;
+	public Collection<InputBinding> getInputBindings() {
+		return inputBindings;
 	}
 
-	public void setInputChannels(Collection<InputChannelSpec> inputChannels) {
-		this.inputChannels = inputChannels;
+	public void setInputBindings(Collection<InputBinding> inputBindings) {
+		this.inputBindings = inputBindings;
 	}
 
 }

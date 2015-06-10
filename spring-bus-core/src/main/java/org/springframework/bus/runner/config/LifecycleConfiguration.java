@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Configuration;
 public class LifecycleConfiguration implements CommandLineRunner {
 
 	@Autowired
-	private MessageBusProperties module;
+	private ModuleProperties module;
 
 	@Autowired
 	private MessageBusAdapter adapter;

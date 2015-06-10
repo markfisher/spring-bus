@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  */
 @ConfigurationProperties("spring.bus")
 @JsonInclude(Include.NON_DEFAULT)
-public class MessageBusProperties {
+public class ModuleProperties {
 
 	private String name = "module";
 

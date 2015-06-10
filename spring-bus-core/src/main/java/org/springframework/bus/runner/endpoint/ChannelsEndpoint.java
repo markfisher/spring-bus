@@ -24,12 +24,15 @@ import java.util.Map;
 import org.springframework.boot.actuate.endpoint.AbstractEndpoint;
 import org.springframework.bus.runner.adapter.ChannelsMetadata;
 import org.springframework.bus.runner.adapter.MessageBusAdapter;
-import org.springframework.bus.runner.adapter.OutputChannelSpec;
+import org.springframework.bus.runner.adapter.OutputBinding;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author Dave Syer
+ */
 @RestController
 public class ChannelsEndpoint extends AbstractEndpoint<Map<String, ?>> {
 	
@@ -41,34 +44,34 @@ public class ChannelsEndpoint extends AbstractEndpoint<Map<String, ?>> {
 	}
 
 	@RequestMapping(value="/channels/taps")
-	public List<OutputChannelSpec> taps() {
-		List<OutputChannelSpec> list = new ArrayList<OutputChannelSpec>();
-		for (OutputChannelSpec spec : adapter.getChannelsMetadata().getOutputChannels()) {
-			if (spec.isTapped()) {
-				list.add(spec);
+	public List<OutputBinding> taps() {
+		List<OutputBinding> list = new ArrayList<OutputBinding>();
+		for (OutputBinding binding : adapter.getChannelsMetadata().getOutputBindings()) {
+			if (binding.isTapped()) {
+				list.add(binding);
 			}
 		}
-		return list ;
+		return list;
 	}
 
 	@RequestMapping(value="/channels/taps", method=RequestMethod.POST)
-	public OutputChannelSpec tap(@RequestParam String channel) {
+	public OutputBinding tap(@RequestParam String channel) {
 		adapter.tap(channel);
-		return adapter.getOutputChannel(channel);
+		return adapter.getOutputBinding(channel);
 	}
 
 	@RequestMapping(value="/channels/taps", method=RequestMethod.DELETE)
-	public OutputChannelSpec untap(@RequestParam String channel) {
+	public OutputBinding untap(@RequestParam String channel) {
 		adapter.untap(channel);
-		return adapter.getOutputChannel(channel);
+		return adapter.getOutputBinding(channel);
 	}
 
 	@Override
 	public Map<String, ?> invoke() {
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		ChannelsMetadata channels = adapter.getChannelsMetadata();
-		map.put("inputChannels", channels.getInputChannels());
-		map.put("outputChannels", channels.getOutputChannels());
+		map.put("inputChannels", channels.getInputBindings());
+		map.put("outputChannels", channels.getOutputBindings());
 		map.put("module", channels.getModule());
 		return map;
 	}

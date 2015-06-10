@@ -24,7 +24,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.bus.runner.config.MessageBusProperties;
+import org.springframework.bus.runner.config.ModuleProperties;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -53,13 +53,13 @@ import org.springframework.xd.module.options.ModuleOptionsMetadataResolver;
  *
  */
 @Configuration
-@EnableConfigurationProperties(MessageBusProperties.class)
+@EnableConfigurationProperties(ModuleProperties.class)
 @Order(Ordered.HIGHEST_PRECEDENCE + 10)
 public class ModuleOptionsPropertySourceInitializer implements
 		ApplicationContextInitializer<ConfigurableApplicationContext> {
 
 	@Autowired
-	private MessageBusProperties module = new MessageBusProperties();
+	private ModuleProperties module = new ModuleProperties();
 
 	@Autowired(required=false)
 	private EnvironmentAwareModuleOptionsMetadataResolver wrapper;

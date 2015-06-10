@@ -26,7 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.bus.runner.adapter.ChannelLocator;
 import org.springframework.bus.runner.adapter.ChannelsMetadata;
-import org.springframework.bus.runner.adapter.InputChannelSpec;
+import org.springframework.bus.runner.adapter.InputBinding;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.client.RestOperations;
@@ -35,7 +35,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * @author Dave Syer
- *
+ * @author Mark Fisher
  */
 public class DiscoveryClientChannelLocator implements ChannelLocator {
 
@@ -66,20 +66,20 @@ public class DiscoveryClientChannelLocator implements ChannelLocator {
 		try {
 			ChannelsMetadata channels = this.restTemplate.getForObject(uri,
 					ChannelsMetadata.class);
-			Collection<? extends InputChannelSpec> specs = Collections.emptySet();
+			Collection<? extends InputBinding> bindings = Collections.emptySet();
 			if (name.startsWith("input")) {
 				name = name.replace("input", "output");
-				specs = channels.getOutputChannels();
+				bindings = channels.getOutputBindings();
 			}
 			else if (name.startsWith("output")) {
 				name = name.replace("output", "input");
-				specs = channels.getInputChannels();
+				bindings = channels.getInputBindings();
 			}
-			for (InputChannelSpec spec : specs) {
-				if (name.equals(spec.getLocalName())) {
+			for (InputBinding binding : bindings) {
+				if (name.equals(binding.getChannelName())) {
 					this.logger.debug("Discovered channel for '" + this.serviceId + "' ("
-							+ name + "=" + spec.getName() + ")");
-					return spec.getName();
+							+ name + "=" + binding.getPipeName() + ")");
+					return binding.getPipeName();
 				}
 			}
 		}

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.bus.runner.config;
 
 import java.util.Arrays;
@@ -31,10 +32,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.bus.runner.adapter.ChannelLocator;
 import org.springframework.bus.runner.adapter.Upstream;
-import org.springframework.bus.runner.adapter.InputChannelSpec;
+import org.springframework.bus.runner.adapter.InputBinding;
 import org.springframework.bus.runner.adapter.MessageBusAdapter;
 import org.springframework.bus.runner.adapter.Downstream;
-import org.springframework.bus.runner.adapter.OutputChannelSpec;
+import org.springframework.bus.runner.adapter.OutputBinding;
 import org.springframework.bus.runner.endpoint.ChannelsEndpoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,15 +47,14 @@ import org.springframework.xd.dirt.integration.bus.MessageBusAwareRouterBeanPost
 
 /**
  * @author Dave Syer
- *
  */
 @Configuration
 @ImportResource("classpath*:/META-INF/spring-xd/bus/codec.xml")
-@EnableConfigurationProperties(MessageBusProperties.class)
+@EnableConfigurationProperties(ModuleProperties.class)
 public class MessageBusAdapterConfiguration {
 
 	@Autowired
-	private MessageBusProperties module;
+	private ModuleProperties module;
 
 	@Autowired
 	private ListableBeanFactory beanFactory;
@@ -68,11 +68,11 @@ public class MessageBusAdapterConfiguration {
 	private ChannelLocator outputChannelLocator;
 
 	@Bean
-	public MessageBusAdapter messageBusAdapter(MessageBusProperties module,
+	public MessageBusAdapter messageBusAdapter(ModuleProperties module,
 			MessageBus messageBus) {
 		MessageBusAdapter adapter = new MessageBusAdapter(module, messageBus);
-		adapter.setOutputChannels(getOutputChannels());
-		adapter.setInputChannels(getInputChannels());
+		adapter.setOutputBindings(getOutputBindings());
+		adapter.setInputBindings(getInputBindings());
 		if (this.inputChannelLocator!=null) {
 			adapter.setInputChannelLocator(this.inputChannelLocator);
 		}
@@ -87,28 +87,28 @@ public class MessageBusAdapterConfiguration {
 		return new ChannelsEndpoint(adapter);
 	}
 
-	protected Collection<OutputChannelSpec> getOutputChannels() {
-		Set<OutputChannelSpec> channels = new LinkedHashSet<OutputChannelSpec>();
+	protected Collection<OutputBinding> getOutputBindings() {
+		Set<OutputBinding> bindings = new LinkedHashSet<OutputBinding>();
 		String[] names = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
 				this.beanFactory, MessageChannel.class);
 		for (String name : names) {
 			if (name.startsWith("output")) {
-				channels.add(new OutputChannelSpec(name));
+				bindings.add(new OutputBinding(name));
 			}
 		}
-		return channels;
+		return bindings;
 	}
 
-	protected Collection<InputChannelSpec> getInputChannels() {
-		Set<InputChannelSpec> channels = new LinkedHashSet<InputChannelSpec>();
+	protected Collection<InputBinding> getInputBindings() {
+		Set<InputBinding> bindings = new LinkedHashSet<InputBinding>();
 		String[] names = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
 				this.beanFactory, MessageChannel.class);
 		for (String name : names) {
 			if (name.startsWith("input")) {
-				channels.add(new InputChannelSpec(name));
+				bindings.add(new InputBinding(name));
 			}
 		}
-		return channels;
+		return bindings;
 	}
 
 	// Nested class to avoid instantiating all of the above early
