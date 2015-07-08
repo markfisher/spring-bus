@@ -81,17 +81,17 @@ public class ModuleOptionsPropertySourceInitializer implements
 	}
 
 	private ModuleDefinition getModuleDefinition(ConfigurableApplicationContext applicationContext) {
-		String locationToUse = "file:.";
+		String location = "file:.";
 		ClassLoader classLoader = applicationContext.getClassLoader();
 		if (classLoader instanceof URLClassLoader) {
 			URL[] urls = ((URLClassLoader) classLoader).getURLs();
-			String location = urls[0].toString();
-			if (location.startsWith("jar:") && location.endsWith("!/")) {
-				locationToUse = location.substring(4, location.length() - 2);
+			String firstUrl = urls[0].toString();
+			if (firstUrl.startsWith("jar:") && firstUrl.endsWith("!/")) {
+				location = firstUrl.substring(4, firstUrl.length() - 2);
 			}
 		}
 		return ModuleDefinitions.simple(module.getName(),
-				ModuleType.valueOf(module.getType()), locationToUse);
+				ModuleType.valueOf(module.getType()), location);
 	}
 
 	private void insert(ConfigurableEnvironment environment, MapPropertySource source) {
